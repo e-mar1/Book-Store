@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="form-container mat-elevation-z4">
+    <div class="loading-shade" *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <h2>{{isEditMode ? 'Edit' : 'Add New'}} Book</h2>
+
+    <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" placeholder="Enter book title" required>
+        <mat-error *ngIf="title?.errors?.['required']">Title is required</mat-error>
+        <mat-error *ngIf="title?.errors?.['maxlength']">Title cannot exceed 100 characters</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Author</mat-label>
+        <input matInput formControlName="author" placeholder="Enter author name" required>
+        <mat-error *ngIf="author?.errors?.['required']">Author is required</mat-error>
+        <mat-error *ngIf="author?.errors?.['maxlength']">Author name cannot exceed 100 characters</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Price</mat-label>
+        <input matInput type="number" formControlName="price" placeholder="Enter price" min="0.01" step="0.01" required>
+        <span matPrefix style="margin-left: 5px;"> &nbsp;$</span>
+        <mat-error *ngIf="price?.errors?.['required']">Price is required</mat-error>
+        <mat-error *ngIf="price?.errors?.['min']">Price must be greater than 0</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" placeholder="Enter book description" rows="4"></textarea>
+        <mat-error *ngIf="description?.errors?.['maxlength']">Description cannot exceed 500 characters</mat-error>
+      </mat-form-field>
+
+      <div class="button-row">
+        <button type="button" mat-stroked-button color="primary" routerLink="/books">
+          <mat-icon>arrow_back</mat-icon> Cancel
+        </button>
+        <button type="submit" mat-raised-button color="primary" [disabled]="bookForm.invalid || submitInProgress">
+          <mat-icon>save</mat-icon> {{isEditMode ? 'Update' : 'Save'}}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

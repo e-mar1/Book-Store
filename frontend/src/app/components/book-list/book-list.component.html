@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="header">
+    <div class="search-container">
+      <mat-form-field appearance="outline">
+        <mat-label >Search books</mat-label>
+        <input matInput [(ngModel)]="searchTerm" placeholder="Search by title...">
+        <button *ngIf="searchTerm" matSuffix mat-icon-button aria-label="Clear" (click)="searchTerm=''; loadBooks()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <button mat-raised-button color="primary" style="margin-top: 5px;" (click)="searchBooks()">Search</button>
+    </div>
+    <button mat-raised-button color="accent" [routerLink]="['/books/new']">
+      <mat-icon>add</mat-icon> Add New Book
+    </button>
+  </div>
+
+  <div class="mat-elevation-z8 table-container">
+    <div class="loading-shade" *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" matSort>
+      
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+        <td mat-cell *matCellDef="let book"> {{book.id}} </td>
+      </ng-container>
+
+      
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+        <td mat-cell *matCellDef="let book"> {{book.title}} </td>
+      </ng-container>
+
+  
+      <ng-container matColumnDef="author">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Author </th>
+        <td mat-cell *matCellDef="let book"> {{book.author}} </td>
+      </ng-container>
+
+      
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
+        <td mat-cell *matCellDef="let book"> {{book.price | currency}} </td>
+      </ng-container>
+
+  
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let book">
+          <button mat-icon-button color="primary" [routerLink]="['/books', book.id]" matTooltip="View Details">
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" [routerLink]="['/books/edit', book.id]" matTooltip="Edit Book">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteBook(book.id)" matTooltip="Delete Book">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="5">No data matching the filter "{{searchTerm}}"</td>
+      </tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of books"></mat-paginator>
+  </div>
+</div>

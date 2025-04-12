@@ -34,11 +34,11 @@ public class Book {
     @Size(max = 500, message = "Description must be less than 500 characters")
     private String description;
     
-    // Default constructor
+
     public Book() {
     }
     
-    // Constructor with parameters
+    
     public Book(String title, String author, Double price, String description) {
         this.title = title;
         this.author = author;
@@ -46,7 +46,7 @@ public class Book {
         this.description = description;
     }
     
-    // Getters and Setters
+   
     public Long getId() {
         return id;
     }
